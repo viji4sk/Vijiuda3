@@ -7,6 +7,7 @@
   "scripts": {
     "test": "jest",
     "preinstall": "npx npm-force-resolutions",
+    "clean": "rm -rf node_modules",     
     "test:watch": "jest --watch",
     "pretest:cov": "npm run lint",
     "test:cov": "jest --coverage",
