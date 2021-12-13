@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "preinstall": "npx npm-force-resolutions",
     "test:watch": "jest --watch",
     "pretest:cov": "npm run lint",
     "test:cov": "jest --coverage",
@@ -142,22 +143,6 @@
       "\\.(css|less)$": "identity-obj-proxy",
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js"
     }
-  },
-  "ansi-html": {
-  "name": "ansi-html-community",
-  "version": "0.0.8",
-  "description": "An elegant lib that converts the chalked (ANSI) text to HTML. (Community)",
-  "main": "index.js",
-  "scripts": {
-    "test": "./node_modules/.bin/mocha -R spec -t 5000"
-  },
-  "bin": {
-    "ansi-html": "./bin/ansi-html"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/mahdyar/ansi-html-community.git"
-  }
   },
   "resolutions": {
     "ansi-html": "https://registry.npmjs.org/ansi-html-community/-/ansi-html-community-0.0.8.tgz"
