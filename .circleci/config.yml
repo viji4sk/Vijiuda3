@@ -82,7 +82,6 @@ jobs:
             cd frontend
             npm install
             npm audit 
-            npx npm-force-resolutions
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-scan 
