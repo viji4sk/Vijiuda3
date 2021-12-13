@@ -18,7 +18,7 @@ jobs:
           paths: [frontend/node_modules]
           key: frontend-build
     
-build-backend:
+  build-backend:
     docker:
       - image: circleci/node:13.8.0
     steps:
