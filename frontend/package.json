@@ -143,6 +143,22 @@
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js"
     }
   },
+  "ansi-html": {
+  "name": "ansi-html-community",
+  "version": "0.0.8",
+  "description": "An elegant lib that converts the chalked (ANSI) text to HTML. (Community)",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha -R spec -t 5000"
+  },
+  "bin": {
+    "ansi-html": "./bin/ansi-html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mahdyar/ansi-html-community.git"
+  }
+  },
   "resolutions": {
   "ansi-html": "https://registry.yarnpkg.com/ansi-html-community/-/ansi-html-community-0.0.8.tgz#69fbc4d6ccbe383f9736934ae34c3f8290f1bf41"
 },
