@@ -80,7 +80,7 @@ jobs:
           name: Run frontend scan
           command: |
             cd frontend
-            npm ci
+            rm -f package-lock.json && npm install
             npm audit 
           
       - save_cache:
