@@ -5,7 +5,7 @@
   "description": "A frontend boilerplate with React, Redux and Typescript",
   "main": "index.js",
   "scripts": {
-    "clean": "rm -f package-lock.json",
+    "clean": "rm -f node_modules",
     "test": "jest",
     "test:watch": "jest --watch",
     "pretest:cov": "npm run lint",
