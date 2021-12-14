@@ -14,6 +14,7 @@ jobs:
             cd frontend
             npm install
             npm run build
+            npm update
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
@@ -81,7 +82,6 @@ jobs:
           command: |
             cd frontend
             npm install
-            npm update
             npm audit fix --audit-level=critical --force
           
       - save_cache:
