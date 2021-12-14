@@ -6,8 +6,6 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "preinstall": "npx npm-force-resolutions",
-    "clean": "rm -rf node_modules",     
     "test:watch": "jest --watch",
     "pretest:cov": "npm run lint",
     "test:cov": "jest --coverage",
@@ -67,10 +65,9 @@
     "webpack": "^4.35.3",
     "webpack-cleanup-plugin": "^0.5.1",
     "webpack-cli": "^3.3.5",
-    "webpack-dev-server": "4.6.0"
+    "webpack-dev-server": "^3.7.2"
   },
   "dependencies": {
-    "ansi-html-community": "0.0.8",
     "@fortawesome/fontawesome-svg-core": "^1.2.19",
     "@fortawesome/free-regular-svg-icons": "^5.9.0",
     "@fortawesome/free-solid-svg-icons": "^5.9.0",
@@ -94,7 +91,7 @@
     "react-country-region-selector": "^1.4.3",
     "react-datepicker": "^2.8.0",
     "react-dom": "^16.8.6",
-    "react-foundation": "0.9.7",
+    "react-foundation": "^0.9.6",
     "react-gravatar": "^2.6.3",
     "react-loading": "^2.0.3",
     "react-redux": "^5.1.1",
@@ -145,10 +142,6 @@
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js"
     }
   },
-  "resolutions": {
-    "ansi-html": "https://registry.npmjs.org/ansi-html-community/-/ansi-html-community-0.0.8.tgz"
-  },
-
   "homepage": "http://mywebsite.com/relativepath"
 }
  
