@@ -5,7 +5,6 @@
   "description": "A frontend boilerplate with React, Redux and Typescript",
   "main": "index.js",
   "scripts": {
-    "clean": "rm -rf node_modules",
     "test": "jest",
     "test:watch": "jest --watch",
     "pretest:cov": "npm run lint",
@@ -66,7 +65,7 @@
     "webpack": "^4.35.3",
     "webpack-cleanup-plugin": "^0.5.1",
     "webpack-cli": "^3.3.5",
-    "webpack-dev-server": "^3.7.2"
+    "webpack-dev-server": "4.6.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.19",
