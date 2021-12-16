@@ -168,11 +168,10 @@ jobs:
                   --filters "Name=tag:project,Values=udapeople" \
                   --output text)
                 
-                 echo "http://$VIJI_IP:3030" > .circleci/outputs/link.txt 
-                 echo "[all]" > .circleci/ansible/inventory.txt
+                 echo "[web]" > .circleci/ansible/inventory.txt
                  echo "$VIJI_IP" > .circleci/ansible/inventory.txt
                  
-                 cat .circleci/outputs/link.txt
+                 cat .circleci/ansible/inventory.txt
          # no_output_timeout: 5m      
              
       - persist_to_workspace:
