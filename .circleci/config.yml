@@ -11,9 +11,10 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            cd backend
+            cd backend 
+            #URL02=("http://$s3Buck.s3-website-eu-east-1.amazonaws.com")
             echo "Destroying environment: <<parameters.workflow_id>> "
-            #aws s3 rm s3://udapeople-s3bucket-${CIRCLE_WORKFLOW_ID}/ --recursive
+            #aws s3 rm s3://udapeople-frontend-s3bucket-${CIRCLE_WORKFLOW_ID}/ --recursive
            
             aws cloudformation delete-stack --stack-name udapeople-backend-<<parameters.workflow_id>>
              
@@ -266,7 +267,7 @@ jobs:
             name: Deploy frontend objects
             command: |
               cd frontend
-              s3Buck=$(echo "udapeople-${CIRCLE_WORKFLOW_ID:0:7}")
+              s3Buck=$(echo "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}")
               aws s3 sync dist s3://$s3Buck/
               URL02=("http://$s3Buck.s3-website-eu-east-1.amazonaws.com")
               curl -H "Content-Type: text/plain" -H "token: 3db6c101-a4a9-41b4-9a5c-259717683a43" --request PUT --data "$URL02" https://api.memstash.io/values/s3Buck_${CIRCLE_WORKFLOW_ID}
@@ -276,8 +277,8 @@ jobs:
             paths:
               - frontend/dist
       - undo_migrations
-      - destroy-environment:
-            workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"  
+      # destroy-environment:
+      #      workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"  
       
   deploy-backend:
     docker:
@@ -316,7 +317,7 @@ jobs:
             cd backend
             npm i
             npm run build
-            cd..
+            cd ..
             tar -C backend -czvf artifact.tar.gz .
             cd .circleci/ansible
             echo "Contents  of the inventory.txt file is -------"
@@ -324,36 +325,36 @@ jobs:
             ansible-playbook -i inventory.txt deploy-backend.yml
   
       - undo_migrations
-      - destroy-environment:
-            workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"           
+      # destroy-environment:
+      #      workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"           
   
 workflows:
   default:
     jobs:
-      #- build-frontend
-      #- build-backend
-      #- test-frontend:
-      #    requires: [build-frontend]
-      #- test-backend:
-      #    requires: [build-backend]   
-      #- scan-frontend:
-      #    requires: [build-frontend]
-      #- scan-backend:
-      #    requires: [build-backend]
-      #- deploy-infrastructure:
-      #    requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-      #    filters:
-      #        branches:
-      #          only:
-      #            - master 
-      #- configure-infrastructure:
-      #    requires: [deploy-infrastructure]
-      #- run-migrations
-      #    requires: [configure-infrastructure]   
-      - deploy-frontend
-      #   requires: [run-migrations]
-      - deploy-backend
-      #    requires: [run-migrations]
+      - build-frontend
+      - build-backend
+      - test-frontend:
+          requires: [build-frontend]
+      - test-backend:
+          requires: [build-backend]   
+      - scan-frontend:
+          requires: [build-frontend]
+      - scan-backend:
+          requires: [build-backend]
+      - deploy-infrastructure:
+          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          filters:
+              branches:
+                only:
+                  - master 
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
+      - run-migrations:
+          requires: [configure-infrastructure]   
+      - deploy-frontend:
+         requires: [run-migrations]
+      - deploy-backend:
+          requires: [run-migrations]
           
        
       
