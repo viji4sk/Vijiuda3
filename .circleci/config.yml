@@ -19,7 +19,7 @@ commands:
              
             aws cloudformation delete-stack --stack-name udapeople-frontend-<<parameters.workflow_id>>
             
-undo_migrations:
+  undo_migrations:
     description: Revert the last migration if successfully run in the current workflow.
     steps:
       - run:
