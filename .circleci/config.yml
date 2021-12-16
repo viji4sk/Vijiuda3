@@ -103,8 +103,54 @@ jobs:
                   npm audit fix --audit-level=critical --force
       - save_cache:
            paths: [backend/node_modules]
-           key: scan-backend          
-        
+           key: scan-backend    
+           
+  deploy-infrastructure:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Ensure back-end infrastructure exists
+          command: |
+            yum install -y tar gzip
+            aws cloudformation deploy \
+              --template-file .circleci/files/backend.yml \
+              --tags project=udapeople \
+              --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"         
+      - run:
+          name: Ensure front-end infrastructure exist
+          command: |
+            aws cloudformation deploy \
+              --template-file .circleci/files/frontend.yml \
+              --tags project=udapeople \
+              --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  
+              
+      - run:
+          name: Add back-end ip to ansible inventory
+          command: |
+                VIJI_IP=$(aws ec2 describe-instances \
+                  --query 'Reservations[*].Instances[*].PublicIpAddress' \
+                  --filters "Name=tag:project,Values=udapeople" \
+                  --output text)
+                
+                 echo "http://$VIJI_IP:3030" > .circleci/outputs/link.txt 
+                 echo "[all]" > .circleci/ansible/inventory.txt
+                 echo "$VIJI_IP" > .circleci/ansible/inventory.txt
+                 
+                 cat .circleci/outputs/link.txt
+         # no_output_timeout: 5m      
+             
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project/.circleci/outputs/link.txt
+            - project/.circleci/ansible/inventory.txt
+            
+      - destroy-environment:
+          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"      
           
 workflows:
   default:
@@ -119,5 +165,12 @@ workflows:
           requires: [build-frontend]
       - scan-backend:
           requires: [build-backend]
+      - deploy-infrastructure:
+          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          filters:
+              branches:
+                only:
+                  - master    
+          
        
       
