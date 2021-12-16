@@ -326,35 +326,80 @@ jobs:
   
       - undo_migrations
       # destroy-environment:
-      #      workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"           
-  
+      #      workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"  
+      
+  smoke-test:
+    docker:
+      - image: python:3.7-alpine3.12 
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update curl nodejs npm
+            pip install awscli
+            apk add --update tar gzip curl
+            apk add --update curl #for slack notify
+            apk add --update jq #for slack notify
+      - run:
+          name: Backend  Smoke test
+          command: |
+             export VIJIS_IP=$(aws ec2 describe-instances \
+                --query 'Reservations[*].Instances[*].PublicIpAddress' \
+                --filters "Name=tag:project,Values=udapeople" \
+                --output text)
+              echo $VIJIS_IP
+              export API_URL="http://$VIJIS_IP:3030"
+              echo API_URL=${API_URL}
+            if curl -s "http://$API_URL/api/status" | grep "ok"
+            then
+              echo "Backend alive, Proceeding"                      
+            else
+              return 1
+            fi
+      - run:
+          name: Frontend smoke test.
+          command: |
+            front_url=$(curl -H "token: 3db6c101-a4a9-41b4-9a5c-259717683a43" --request GET https://api.memstash.io/values/s3Buck_${CIRCLE_WORKFLOW_ID})
+            if curl -s ${front_url} | grep "Welcome"
+            then
+              echo "Frontend alive"  
+            else
+              return 1
+            fi
+      
+      - destroy-environment
+      - undo_migrations
+      
 workflows:
   default:
     jobs:
-      - build-frontend
-      - build-backend
-      - test-frontend:
-          requires: [build-frontend]
-      - test-backend:
-          requires: [build-backend]   
-      - scan-frontend:
-          requires: [build-frontend]
-      - scan-backend:
-          requires: [build-backend]
-      - deploy-infrastructure:
-          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          filters:
-              branches:
-                only:
-                  - master 
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      - run-migrations:
-          requires: [configure-infrastructure]   
-      - deploy-frontend:
-         requires: [run-migrations]
-      - deploy-backend:
-          requires: [run-migrations]
+      #- build-frontend
+      #- build-backend
+      #- test-frontend:
+      #    requires: [build-frontend]
+      #- test-backend:
+      #    requires: [build-backend]   
+      #- scan-frontend:
+      #    requires: [build-frontend]
+      #- scan-backend:
+      #    requires: [build-backend]
+      #- deploy-infrastructure:
+      #    requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+      #    filters:
+      #        branches:
+      #          only:
+      #            - master 
+      #- configure-infrastructure:
+      #    requires: [deploy-infrastructure]
+      #- run-migrations:
+      #    requires: [configure-infrastructure]   
+      #- deploy-frontend:
+      #   requires: [run-migrations]
+      #- deploy-backend:
+      #    requires: [run-migrations]
+      - smoke-test
+          
           
        
       
