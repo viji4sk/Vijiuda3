@@ -218,7 +218,27 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-            keys: [backend-build]           
+            keys: [backend-build]  
+            
+      - run:
+            name: envts
+            
+            command: |
+              cd  backend
+              touch .env
+              echo ENVIROMENT=production > .env
+              echo NODE_ENV=production >> ".env"
+              echo TYPEORM_CONNECTION=postgres >> .env
+              echo TYPEORM_MIGRATIONS_DIR=./src/migrations >> .env
+              echo TYPEORM_ENTITIES=./src/modules/domain/**/*.entity.ts >> .env
+              echo TYPEORM_MIGRATIONS=./src/migrations/*.ts >> .env
+              echo TYPEORM_HOST=$TYPEORM_HOST >> .env
+              echo TYPEORM_PORT=$TYPEORM_PORT >> .env
+              echo TYPEORM_USERNAME=$TYPEORM_USERNAME >> .env
+              echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> .env
+              echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> .env
+              ls -latr
+              cat .env      
       - run:
           name: Run migrations
           command : | 
@@ -313,12 +333,24 @@ jobs:
                  echo $VIJI_IP >> .circleci/ansible/inventory.txt
                  cat .circleci/ansible/inventory.txt
                  
-            printenv >> ./backend/.env
+           
             cd backend
+            echo ENVIRONMENT=production >> "backend/.env"
+            echo NODE_ENV=production >> "backend/.env"
+            echo TYPEORM_CONNECTION=postgres >> "backend/.env"
+            echo TYPEORM_MIGRATIONS_DIR=./src/migrations >> "backend/.env"
+            echo TYPEORM_ENTITIES=./src/modules/domain/**/*.entity.ts >> "backend/.env"
+            echo TYPEORM_MIGRATIONS=./src/migrations/*.ts >> "backend/.env"
+            echo TYPEORM_HOST=$TYPEORM_HOST >> "backend/.env"
+            echo TYPEORM_PORT=$TYPEORM_PORT >> "backend/.env"
+            echo TYPEORM_USERNAME=$TYPEORM_USERNAME >> "backend/.env"
+            echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> "backend/.env"
+            echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "backend/.env"
+            tar -C backend -czvf artifact.tar.gz .
+            echo "i crossed tar line"
             npm i
             npm run build
             cd ..
-            tar -C backend -czvf artifact.tar.gz .
             cd .circleci/ansible
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
@@ -341,6 +373,19 @@ jobs:
             apk add --update tar gzip curl
             apk add --update curl #for slack notify
             apk add --update jq #for slack notify
+      
+      - run:
+          name: Frontend smoke test
+          command: |
+            URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees" 
+            echo ${URL}
+            if curl -s ${front_url} | grep "Welcome"
+            then
+              echo "Frontend alive"  
+            else
+              return 1
+            fi
+      
       - run:
           name: Backend  Smoke test
           command: |
@@ -356,21 +401,11 @@ jobs:
                  echo "Backend alive, Proceeding"                      
                else
                  return 1
-               fi
-      - run:
-          name: Frontend smoke test
-          command: |
-            URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees" 
-            echo ${URL}
-            if curl -s ${front_url} | grep "Welcome"
-            then
-              echo "Frontend alive"  
-            else
-              return 1
-            fi
+               fi      
+            
       
       #- destroy-environment
-      #- undo_migrations
+      - undo_migrations
       
 workflows:
   default:
