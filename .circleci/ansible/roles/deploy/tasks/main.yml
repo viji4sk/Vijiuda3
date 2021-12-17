@@ -1,5 +1,21 @@
 ---
-- name: Install Dependencies
+- name: "update apt package."
+  become: yes
+  apt:
+    update_cache: yes
+ 
+- name: "update packages"
+  become: yes
+  apt:
+    upgrade: yes
+    
+- name: "Remove dependencies that are no longer required"
+  become: yes
+  apt:
+    autoremove: yes   
+   
+    
+- name: "Install Dependencies"
   become: yes
   apt:
     name: ["nodejs", "npm"]
@@ -19,6 +35,7 @@
   file:
     path: ~/backend
     state: directory
+    mode: 0755
 
 - name: Copy backend dist files web server
   become: yes
