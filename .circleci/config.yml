@@ -324,6 +324,7 @@ jobs:
       - run:
           name: Get ip  and deploy back end 
           command: |        
+            ls -la
             [[ ! -d backend ]] && mkdir backend
             myenv="backend/.env"
             echo ENVIROMENT=production > $myenv
@@ -338,10 +339,13 @@ jobs:
             echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> $myenv
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> $myenv
             cat $myenv
-            cd backend
+            ls -la
+          
             tar -C backend -czvf artifact.tar.gz .
             echo "i crossed tar line"
+            ls -la
             
+            cd backend
             VIJI_IP=$(aws ec2 describe-instances \
                   --query 'Reservations[*].Instances[*].PublicIpAddress' \
                   --filters "Name=tag:project,Values=udapeople" \
