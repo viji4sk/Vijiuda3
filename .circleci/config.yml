@@ -344,30 +344,24 @@ jobs:
             tar -C backend -czvf artifact.tar.gz .
             echo "i crossed tar line"
             ls -la
-            
-           
-            cd .circleci
-            ls -la
+          
             
             VIJI_IP=$(aws ec2 describe-instances \
                   --query 'Reservations[*].Instances[*].PublicIpAddress' \
                   --filters "Name=tag:project,Values=udapeople" \
                   --output text)
                  echo "$VIJI_IP"
-                 echo "[web]" > .circleci/.ansible/inventory.txt
-                 echo $VIJI_IP >> .circleci/.ansible/inventory.txt
-                 cat .circleci/.ansible/inventory.txt
+                 echo "[web]" > .circleci/ansible/inventory.txt
+                 echo $VIJI_IP >> .circleci/ansible/inventory.txt
+                 cat .circleci/ansible/inventory.txt
                  
             #npm i
             #npm run build
-            cd ..
-            cd .circleci
-            ls -la
-            cd .ansible
-            ls -la
-            echo "Contents  of the inventory.txt file is -------"
-            cat .circleci/.ansible/inventory.txt
-            #ansible-playbook -i inventory.txt deploy-backend.yml
+            #cd ..
+            cd .circleci/ansible
+            #echo "Contents  of the inventory.txt file is -------"
+            #cat .circleci/ansible/inventory.txt
+            ansible-playbook -i inventory.txt deploy-backend.yml
   
       #- undo_migrations
       # destroy-environment:
