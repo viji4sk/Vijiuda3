@@ -339,7 +339,7 @@ jobs:
             echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> $myenv
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> $myenv
             cat $myenv
-            ls -la
+       
           
             tar -C backend -czvf artifact.tar.gz .
             echo "i crossed tar line"
@@ -351,16 +351,19 @@ jobs:
                   --filters "Name=tag:project,Values=udapeople" \
                   --output text)
                  echo "$VIJI_IP"
-                 echo "[web]" > .circleci/ansible/inventory.txt
-                 echo $VIJI_IP >> .circleci/ansible/inventory.txt
-                 cat .circleci/ansible/inventory.txt
+                 echo "[web]" > .circleci/.ansible/inventory.txt
+                 echo $VIJI_IP >> .circleci/.ansible/inventory.txt
+                 cat .circleci/.ansible/inventory.txt
                  
             #npm i
             #npm run build
             cd ..
-            cd .circleci/ansible
+            cd .circleci
+            ls -la
+            cd .ansible
+            ls -la
             echo "Contents  of the inventory.txt file is -------"
-            cat .circleci/ansible/inventory.txt
+            cat .circleci/.ansible/inventory.txt
             #ansible-playbook -i inventory.txt deploy-backend.yml
   
       #- undo_migrations
