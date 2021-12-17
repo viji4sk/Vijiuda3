@@ -42,3 +42,19 @@
   copy:
     src: ~/project/artifact.tar.gz
     dest: ~/backend/artifact.tar.gz
+    
+- name: Extract backend files
+  become: yes
+  shell: |
+    cd ~/backend
+    tar -vxf artifact.tar.gz
+
+- name: Executing node
+  shell: |
+    cd ~/backend
+    npm install
+    npm run build
+    pm2 stop default
+    pm2 start npm --name "backend" -- run start
+    cd dist
+    pm2 start main.js --update-env
