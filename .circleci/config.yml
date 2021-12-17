@@ -333,9 +333,9 @@ jobs:
                  echo $VIJI_IP >> .circleci/ansible/inventory.txt
                  cat .circleci/ansible/inventory.txt
                  
-           
+            [[ ! -d backend ]] && mkdir backend
             cd backend
-            echo ENVIRONMENT=production >> "backend/.env"
+            echo ENVIRONMENT=production > "backend/.env"
             echo NODE_ENV=production >> "backend/.env"
             echo TYPEORM_CONNECTION=postgres >> "backend/.env"
             echo TYPEORM_MIGRATIONS_DIR=./src/migrations >> "backend/.env"
@@ -377,7 +377,8 @@ jobs:
       - run:
           name: Frontend smoke test
           command: |
-            URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees" 
+            #URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees" 
+            URL="http://udapeople-9e5efdd.s3-website-us-east-1.amazonaws.com/#/employees" 
             echo ${URL}
             if curl -s ${front_url} | grep "Welcome"
             then
@@ -410,34 +411,34 @@ jobs:
 workflows:
   default:
     jobs:
-      - build-frontend
-      - build-backend
-      - test-frontend:
-          requires: [build-frontend]
-      - test-backend:
-          requires: [build-backend]   
-      - scan-frontend:
-          requires: [build-frontend]
-      - scan-backend:
-          requires: [build-backend]
-      - deploy-infrastructure:
-          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          filters:
-              branches:
-                only:
-                  - master 
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      - run-migrations:
-          requires: [configure-infrastructure]   
-      - deploy-frontend:
-         requires: [run-migrations]
-      - deploy-backend:
-          requires: [run-migrations]
-      - smoke-test:
-         requires:
-           - deploy-frontend
-           - deploy-backend 
+      #- build-frontend
+      #- build-backend
+      #- test-frontend:
+      #    requires: [build-frontend]
+      #- test-backend:
+      #    requires: [build-backend]   
+      #- scan-frontend:
+      #    requires: [build-frontend]
+      #- scan-backend:
+      #    requires: [build-backend]
+      #- deploy-infrastructure:
+      #    requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+      #    filters:
+      #        branches:
+      #          only:
+      #            - master 
+      #- configure-infrastructure:
+      #    requires: [deploy-infrastructure]
+      #- run-migrations:
+      #    requires: [configure-infrastructure]   
+      #- deploy-frontend:
+      #   requires: [run-migrations]
+      - deploy-backend
+      #    requires: [run-migrations]
+      - smoke-test
+      #   requires:
+      #     - deploy-frontend
+      #     - deploy-backend 
           
        
       
