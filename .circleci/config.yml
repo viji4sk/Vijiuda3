@@ -339,12 +339,9 @@ jobs:
             echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> $myenv
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> $myenv
             cat $myenv
-       
           
             tar -C backend -czvf artifact.tar.gz .
-            echo "i crossed tar line"
             ls -la
-          
             
             VIJI_IP=$(aws ec2 describe-instances \
                   --query 'Reservations[*].Instances[*].PublicIpAddress' \
@@ -438,7 +435,7 @@ workflows:
 #           requires: [deploy-infrastructure]
 #       - run-migrations:
 #           requires: [configure-infrastructure]   
-#       - deploy-frontend:
+        - deploy-frontend:
 #          requires: [run-migrations]
         - deploy-backend
 #           requires: [run-migrations]
