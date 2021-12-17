@@ -36,3 +36,9 @@
     path: ~/backend
     state: directory
     mode: 0755
+
+- name: Copy backend dist files web server
+  become: yes
+  copy:
+    src: ~/project/artifact.tar.gz
+    dest: ~/backend/artifact.tar.gz
