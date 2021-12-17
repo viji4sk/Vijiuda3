@@ -338,6 +338,7 @@ jobs:
             echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> $myenv
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> $myenv
             cat $myenv
+            cd backend
             tar -C backend -czvf artifact.tar.gz .
             echo "i crossed tar line"
             
@@ -352,11 +353,11 @@ jobs:
                  
             #npm i
             #npm run build
-            #cd ..
-            #cd .circleci/ansible
-            #echo "Contents  of the inventory.txt file is -------"
-            #cat .circleci/ansible/inventory.txt
-            ansible-playbook -i inventory.txt deploy-backend.yml
+            cd ..
+            cd .circleci/ansible
+            echo "Contents  of the inventory.txt file is -------"
+            cat .circleci/ansible/inventory.txt
+            #ansible-playbook -i inventory.txt deploy-backend.yml
   
       #- undo_migrations
       # destroy-environment:
