@@ -353,10 +353,10 @@ jobs:
             #npm i
             #npm run build
             cd ..
-            cd .circleci/ansible
+            #cd .circleci/ansible
             echo "Contents  of the inventory.txt file is -------"
-            cat inventory.txt
-            ansible-playbook -i inventory.txt deploy-backend.yml
+            cat .circleci/ansible/inventory.txt
+            ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml
   
       #- undo_migrations
       # destroy-environment:
