@@ -276,7 +276,7 @@ jobs:
                 --query 'Reservations[*].Instances[*].PublicIpAddress' \
                 --filters "Name=tag:project,Values=udapeople" \
                 --output text)
-              VIJIS_IP="44.201.195.105"
+              VIJIS_IP="34.225.165.183"
               echo $VIJIS_IP
               export API_URL="http://$VIJIS_IP:3030"
               echo API_URL=${API_URL}
