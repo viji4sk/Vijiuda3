@@ -50,11 +50,17 @@ Resources:
 
   ElasticIP:
     Type: AWS::EC2::EIP
+    
+  ElasticIPAssoc:
+    Type: AWS::EC2::EIPAssociation
     Properties:
-      Domain: vpc
       InstanceId: !Ref EC2Instance
+      EIP: !Ref ElasticIP
       
 Outputs:
   EC2InstanceId:
-    Description: Instance Id 
+    Description: Instance Id of EC2 Instance
     Value: !Ref EC2Instance
+  EC2InstanceIP:
+    Description: IP Address of EC2 Instance
+    Value: !Ref ElasticIP
