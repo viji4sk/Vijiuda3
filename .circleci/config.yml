@@ -288,6 +288,7 @@ jobs:
             command: |
               cd frontend
               s3Buck=$(echo "udapeople-${CIRCLE_WORKFLOW_ID:0:7}")
+              echo $s3Buck
               aws s3 sync dist s3://$s3Buck/
               URL02=("http://$s3Buck.s3-website-eu-east-1.amazonaws.com")
               curl -H "Content-Type: text/plain" -H "token: 3db6c101-a4a9-41b4-9a5c-259717683a43" --request PUT --data "$URL02" https://api.memstash.io/values/s3Buck_${CIRCLE_WORKFLOW_ID}
