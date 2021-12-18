@@ -251,7 +251,8 @@ jobs:
           command: |
              if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
              then
-              curl -H "Content-Type: text/plain" -H "token: 3db6c101-a4a9-41b4-9a5c-259717683a43" --request PUT --data "1" https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID}
+              echo "MemStash IO is down. Hence commented."
+              #curl -H "Content-Type: text/plain" -H "token: 3db6c101-a4a9-41b4-9a5c-259717683a43" --request PUT --data "1" https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID}
              fi      
       - destroy-environment:
            workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
@@ -273,7 +274,7 @@ jobs:
             name: Get backend url
             command: |
              export VIJIS_IP=$(aws ec2 describe-instances \
-                --query 'Reservations[*].Instances[*].PublicIpAddress' \
+                --query 'Reservations[*].Instances[*].ElasticIp' \
                 --filters "Name=tag:project,Values=udapeople" \
                 --output text)
               #VIJIS_IP="34.225.165.183"
@@ -294,7 +295,8 @@ jobs:
               echo $s3Buck
               aws s3 sync dist s3://$s3Buck/
               URL02=("http://$s3Buck.s3-website-eu-east-1.amazonaws.com")
-              curl -H "Content-Type: text/plain" -H "token: 3db6c101-a4a9-41b4-9a5c-259717683a43" --request PUT --data "$URL02" https://api.memstash.io/values/s3Buck_${CIRCLE_WORKFLOW_ID}
+              echo "MemStash IO is down. Hence commented."
+              #curl -H "Content-Type: text/plain" -H "token: 3db6c101-a4a9-41b4-9a5c-259717683a43" --request PUT --data "$URL02" https://api.memstash.io/values/s3Buck_${CIRCLE_WORKFLOW_ID}
             
       - persist_to_workspace:
             root: .
@@ -396,7 +398,7 @@ jobs:
           name: Backend  Smoke test
           command: |
             export VIJIS_IP=$(aws ec2 describe-instances \
-                          --query 'Reservations[*].Instances[*].PublicIpAddress' \
+                          --query 'Reservations[*].Instances[*].ElasticIp' \
                           --filters "Name=tag:project,Values=udapeople" \
                           --output text)
                          echo $VIJIS_IP
