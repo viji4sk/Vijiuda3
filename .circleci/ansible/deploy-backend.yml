@@ -21,11 +21,5 @@
     TYPEORM_DATABASE: "{{ lookup('env','TYPEORM_DATABASE') }}"
     TYPEORM_MIGRATIONS: "{{ lookup('env','TYPEORM_MIGRATION') }}"
     TYPEORM_MIGRATIONS_DIR: "{{ lookup('env','MIGRATIONS_DIR') }}"
-  debug:
-    msg: "'{{ lookup('env', 'TYPEORM_DATABASE') }}' is the TYPEORM_DATABASE environment variable."
-  debug:
-    msg: "'{{ lookup('env', 'MIGRATIONS_DIR') }}' is the MIGRATIONS_DIR environment variable."
-  debug:
-    msg: "'{{ lookup('env', 'TYPEORM_MIGRATION') }}' is the TYPEORM_MIGRATION environment variable."
   roles:
     - deploy
