@@ -274,7 +274,7 @@ jobs:
             name: Get backend url
             command: |
              export VIJIS_IP=$(aws ec2 describe-instances \
-                --query 'Reservations[*].Instances[*].ElasticIp' \
+                --query 'Reservations[*].Instances[*].PublicIpAddress' \
                 --filters "Name=tag:project,Values=udapeople" \
                 --output text)
               #VIJIS_IP="34.225.165.183"
@@ -398,7 +398,7 @@ jobs:
           name: Backend  Smoke test
           command: |
             export VIJIS_IP=$(aws ec2 describe-instances \
-                          --query 'Reservations[*].Instances[*].ElasticIp' \
+                          --query 'Reservations[*].Instances[*].PublicIpAddress' \
                           --filters "Name=tag:project,Values=udapeople" \
                           --output text)
                          echo $VIJIS_IP
