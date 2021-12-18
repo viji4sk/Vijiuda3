@@ -47,3 +47,14 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub backend-${ID}
+
+  ElasticIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      InstanceId: !Ref EC2Instance
+      
+Outputs:
+  EC2InstanceId:
+    Description: Instance Id 
+    Value: !Ref EC2Instance
