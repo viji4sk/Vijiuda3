@@ -378,8 +378,6 @@ jobs:
             apk add --update curl nodejs npm
             pip install awscli
             apk add --update tar gzip curl
-            apk add --update curl #for slack notify
-            apk add --update jq #for slack notify
       
       - run:
           name: Frontend smoke test
