@@ -439,12 +439,14 @@ workflows:
           requires: [deploy-infrastructure]
 #     - run-migrations:
 #          requires: [configure-infrastructure]   
-      - deploy-frontend
+      - deploy-frontend:
+           requires: [configure-infrastructure]
 #          requires: [run-migrations]
-      - deploy-backend
+      - deploy-backend:
+           requires: [deploy-frontend]
 #          requires: [run-migrations]
-      - smoke-test
-#         requires:
-#             - deploy-frontend
-#            - deploy-backend 
+      - smoke-test:
+         requires:
+            - deploy-frontend
+            - deploy-backend 
      
