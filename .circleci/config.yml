@@ -413,41 +413,38 @@ jobs:
       
       - undo_migrations
       - destroy-environment:
-           export OldWorkflowID=$(aws cloudformation \
-           list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
-          --no-paginate --output text)
-           echo OldWorkflowID: "${OldWorkflowID}"   
-           workflow_id: "${OldWorkflowID:0:7}"  
+           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"  
+           
       
 workflows:
   default:
     jobs:
-#       - build-frontend
-#       - build-backend
-#       - test-frontend:
-#           requires: [build-frontend]
-#       - test-backend:
-#           requires: [build-backend]   
-#       - scan-frontend:
-#           requires: [build-frontend]
-#       - scan-backend:
-#           requires: [build-backend]
-#       - deploy-infrastructure:
-#           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-#           filters:
-#               branches:
-#                 only:
-#                   - master 
-#       - configure-infrastructure:
-#           requires: [deploy-infrastructure]
+       - build-frontend
+       - build-backend
+       - test-frontend:
+           requires: [build-frontend]
+       - test-backend:
+           requires: [build-backend]   
+       - scan-frontend:
+           requires: [build-frontend]
+       - scan-backend:
+           requires: [build-backend]
+       - deploy-infrastructure:
+           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+           filters:
+               branches:
+                 only:
+                   - master 
+       - configure-infrastructure:
+           requires: [deploy-infrastructure]
 #       - run-migrations:
 #           requires: [configure-infrastructure]   
-#       - deploy-frontend:
+       - deploy-frontend
 #           requires: [run-migrations]
-#       - deploy-backend:
+       - deploy-backend
 #           requires: [run-migrations]
-      - smoke-test
-#        requires:
-#            - deploy-frontend
-#            - deploy-backend 
+      - smoke-test:
+        requires:
+            - deploy-frontend
+            - deploy-backend 
      
