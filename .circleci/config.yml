@@ -420,8 +420,8 @@ jobs:
     steps:
       - checkout
       - run:
-         name: Get old stack workflow id
-         command: |          
+          name: Get old stack workflow id
+          command: |          
            OldWorkflowID=$(aws cloudformation \
                  list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
                   --no-paginate --output text )       
