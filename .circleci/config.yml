@@ -453,6 +453,10 @@ jobs:
       - attach_workspace:
           at: ~/  
       - run:
+          name: install dep
+          command: | 
+            yum -y install jq tar gzip git curl   
+      - run:
           name: Cleanup old stacks and files
           command: |
             # get old WorkFlowId  
