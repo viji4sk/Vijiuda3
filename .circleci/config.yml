@@ -420,9 +420,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install dependencies
-          command: |
-      - run:
          name: Get old stack workflow id
          command: |          
            OldWorkflowID=$(aws cloudformation \
