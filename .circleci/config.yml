@@ -169,8 +169,7 @@ jobs:
                  echo "$VIJI_IP" > .circleci/ansible/inventory.txt
                  
                  cat .circleci/ansible/inventory.txt
-         # no_output_timeout: 5m      
-             
+         # no_output_timeout: 5m              
       - persist_to_workspace:
           root: ~/
           paths:
