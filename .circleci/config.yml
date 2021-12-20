@@ -404,9 +404,9 @@ jobs:
                return 1
              fi      
       
-      - undo_migrations
-      - destroy-environment:
-           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"  
+      #- undo_migrations
+      #- destroy-environment:
+      #     workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"  
            
   cloudfront-update:
     docker:
