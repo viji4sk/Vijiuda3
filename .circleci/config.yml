@@ -431,8 +431,8 @@ jobs:
             echo "Update CloudFront"
             aws cloudformation deploy \
               --template-file cloudfront.yml \
-              --stack-name udapeople-${CIRCLE_WORKFLOW_ID:0:7} \
-              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
+              --stack-name udapeople-6a06dfa \
+              --parameter-overrides WorkflowID="6a06dfa" \
               --tags project=udapeople	  
   
               
