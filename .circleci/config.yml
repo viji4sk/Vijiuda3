@@ -503,7 +503,7 @@ workflows:
 #            requires: [run-migrations]
 #       - deploy-backend:
 #            requires: [run-migrations]
-      - smoke-test:
+      - smoke-test
 #            requires:
 #              - deploy-frontend
 #              - deploy-backend 
