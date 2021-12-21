@@ -203,13 +203,12 @@ jobs:
               command: |
                     cd .circleci/ansible
                     ansible-playbook -i inventory.txt configure-server.yml
-        
       - run:
               name: Configure node exporter 
               command: |
                     cd .circleci/ansible
-                    ansible-playbook -i inventory.txt nodex.yml  
-                
+                    ansible-playbook -i inventory.txt nodex.yml 
+           
       - destroy-environment:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"    
       
