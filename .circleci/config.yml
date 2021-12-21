@@ -435,9 +435,10 @@ jobs:
             echo "Update CloudFront"
             aws cloudformation deploy \
               --template-file cloudfront.yml \
-              --stack-name udapeople-6a06dfa \
-              --parameter-overrides WorkflowID="6a06dfa" \
-              --tags project=udapeople	  
+              --stack-name InitialStack \
+              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
+              --tags project=udapeople	
+            	  
   
               
      #- undo_migrations
@@ -501,17 +502,17 @@ workflows:
                    - master 
       - configure-infrastructure:
            requires: [deploy-infrastructure]
-#       - run-migrations:
-#            requires: [configure-infrastructure]   
-#       - deploy-frontend:
-#            requires: [run-migrations]
-#       - deploy-backend:
-#            requires: [run-migrations]
-#       - smoke-test:
-#            requires:
-#              - deploy-frontend
-#              - deploy-backend 
-#       - cloudfront-update
-#           requires: [smoke-test]
-#       - cleanup:
-#            requires: [cloudfront-update] 
+      - run-migrations:
+           requires: [configure-infrastructure]   
+      - deploy-frontend:
+           requires: [run-migrations]
+      - deploy-backend:
+           requires: [run-migrations]
+      - smoke-test:
+           requires:
+             - deploy-frontend
+             - deploy-backend 
+      - cloudfront-update
+          requires: [smoke-test]
+      - cleanup:
+           requires: [cloudfront-update] 
