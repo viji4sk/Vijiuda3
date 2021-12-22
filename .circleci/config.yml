@@ -277,7 +277,6 @@ jobs:
                 --query 'Reservations[*].Instances[*].PublicIpAddress' \
                 --filters "Name=tag:project,Values=udapeople" \
                 --output text)
-              #VIJIS_IP="34.225.165.183"
               echo $VIJIS_IP
               export API_URL="http://$VIJIS_IP:3030"
               echo API_URL=${API_URL}
@@ -409,9 +408,9 @@ jobs:
                return 1
              fi      
       
-      #- undo_migrations
-      #- destroy-environment:
-      #     workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"  
+      - undo_migrations
+      - destroy-environment:
+           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"  
            
   cloudfront-update:
     docker:
@@ -441,9 +440,9 @@ jobs:
             	  
   
               
-     #- undo_migrations
-     #- destroy-environment:
-     #      workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"  
+      - undo_migrations
+      - destroy-environment:
+           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"  
      
   cleanup:
     docker:
@@ -514,5 +513,5 @@ workflows:
              - deploy-backend 
       - cloudfront-update:
           requires: [smoke-test]
-      - cleanup:
-           requires: [cloudfront-update] 
+#       - cleanup:
+#            requires: [cloudfront-update] 
