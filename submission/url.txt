@@ -1,4 +1,7 @@
 Public Url to GitHub repository (not private) [URL01] : https://github.com/viji4sk/Vijiuda3/tree/master
-Public URL for your S3 Bucket (aka, your green candidate front-end) [URL02] : https://udapeople-3bde21f.s3.amazonaws.com/index.html 
 
 NOte :Reviewer for your kind attention, memstash.io is down for the last three days. Hence I have commented the memstash code in my config.yml.
+
+Public URL for your S3 Bucket (aka, your green candidate front-end) [URL02] : https://udapeople-3bde21f.s3.amazonaws.com/index.html 
+Cloud front : https://d2cyvwygkob8tg.cloudfront.net
+
